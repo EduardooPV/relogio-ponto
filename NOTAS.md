@@ -57,4 +57,34 @@
 - `millis()` não é data, são ms desde que a placa ligou.
 - `buttonPressed` guarda a leitura **anterior**, atualizada em toda passada do `loop()`, e não só quando há evento.
 
-**Pendente (Fase 7):** botão real com e sem o capacitor, contando leituras falsas. Testar também o pico de ruído com o botão solto.
+## Fase 3: RTC e I²C
+
+- `millis()` volta a 0 quando desliga. Serve pra medir intervalo, não pra saber dia e hora.
+- A pilha (CR2032) é do **RTC**, que é outro chip. O ESP32 não tem bateria.
+- **I²C** usa dois fios, compartilhados por todos os dispositivos:
+  - SDA (GPIO 21): leva os bits, um depois do outro.
+  - SCL (GPIO 22): o clock. O ESP32 gera, e marca quando olhar o SDA.
+- Cada dispositivo tem um **endereço**. O RTC (DS1307 e DS3231) é `0x68`.
+- A conversa: o ESP32 chama o endereço, o RTC confirma, o ESP32 pede a hora, o RTC manda os bytes no ritmo do clock. O RTC nunca fala sozinho.
+
+**Scanner:** `for` de 1 a 126, e `Wire.endTransmission() == 0` quer dizer que alguém respondeu. Achou `68` (a serial não escreve o `0x`).
+
+**Ler a hora:**
+
+- RTClib, objeto `RTC_DS1307 rtc` (na placa real, `RTC_DS3231`).
+- `Wire.begin()` antes do `rtc.begin()`. Se o `begin()` devolver falso, imprimo o erro e travo com `while (true) {}`.
+- `rtc.now()` devolve um `DateTime`. O `Serial.print` recebe uma coisa por vez, então imprimo `day()`, `month()` etc. separados, com `/` e `:` entre eles.
+- Sem zero à esquerda (`0:0:36`). O CSV precisa de `00:00:36`, resolvo na Fase 4.
+
+**Wokwi:**
+
+- O chip é o DS1307 (não achei DS3231). Começa com a hora do meu PC.
+- Hora certa depois de reiniciar não prova que o RTC lembrou, porque o Wokwi pode reler a hora do PC. A persistência de verdade só testo na placa real.
+- `rtc.adjust()` nunca roda em todo boot, senão sobrescreve a hora certa.
+
+**Errei:**
+
+- Achei que o `millis()` continuava de onde parou por causa da bateria. A bateria é do RTC.
+- `if(exist)` no scanner estava invertido: `endTransmission()` devolve 0 quando dá certo.
+- `Serial.println(date)` não compila. `Serial` não imprime um `DateTime` inteiro.
+- Usei `if(!rtc)` pra checar o chip. Quem diz é o retorno de `rtc.begin()`.
