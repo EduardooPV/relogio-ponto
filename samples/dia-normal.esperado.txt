@@ -1,0 +1,25 @@
+2026-10-15T08:03:12-03:00
+2026-10-15T12:01:40-03:00
+
+Eu trabalhei 3 horas, 58 minutos e 28 segundos no dia 15/10/2026.
+- Entrada: 08:03:12
+- Saída: 12:01:40
+- Total: 03:58:28
+
+---
+
+2028-02-28T23:00:00-03:00
+2028-03-01T01:00:00-03:00
+1. Ano bissexto
+- Entrada: 28/02/2028 às 23:00:00
+- Saída: 01/03/2028 às 01:00:00
+- Tempo trabalhado: 2 horas
+
+---
+
+2026-10-31T23:00:00-03:00
+2026-11-01T01:00:00-03:00
+2. Virada de mês
+- Entrada: 31/10/2026 às 23:00:00
+- Saída: 01/11/2026 às 01:00:00
+- Tempo trabalhado: 2 horas
