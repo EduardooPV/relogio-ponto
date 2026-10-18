@@ -35,6 +35,8 @@ relogio-ponto/
 
 ## Código (Wokwi)
 
+<details>
+  
 ```cpp
 #include <Wire.h>
 #include <RTClib.h>
@@ -144,6 +146,7 @@ void loop() {
   updateErrorLed(now);
 }
 ```
+</details>
 
 ## Como rodar
 
