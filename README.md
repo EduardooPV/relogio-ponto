@@ -1,4 +1,4 @@
-# relogio-ponto
+# Relogio Ponto
 
 Relógio de ponto com um botão. O ESP32 lê a hora de um RTC DS3231 e registra um timestamp a cada aperto; um programa em C++ no PC lê o CSV e soma as horas por dia e por mês. Projeto de estudo de eletrônica básica (resistor, pull-up, debounce, I²C) e C++ de baixo nível, feito para calcular as horas que eu trabalho.
 
